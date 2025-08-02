@@ -1,0 +1,11 @@
+
+  services:
+    web:
+      image: nojram/weather-api:latest
+      build:
+        context: .
+        dockerfile: .Dockerfile
+      ports:
+        - "8000:8000"
+      environment:
+        - MONGO_URI=mongodb+srv://petmalumarjon:putanginamo@freedom-app.yoiinpm.mongodb.net/?retryWrites=true&w=majority&appName=freedom-app
