@@ -14,6 +14,8 @@ def get_wind_and_coastal_waters():
         doc['_id'] = str(doc['_id'])
         result.append(doc)
 
+    return result
+
 @router.post("/wind-and-coastal-waters")
 def create_wind_and_coastal_waters(water: WindAndCoastalWatersSchema):
     doc = WindAndCoastalWaters(**water.model_dump())
