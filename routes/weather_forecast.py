@@ -9,7 +9,13 @@ router = APIRouter()
 
 @router.get("/forecast-conditions")
 def get_forecast_condition():
-    forecasts = ForecastConditions.objects.order_by("-date")
+    # Filter out documents with empty string values for key fields
+    forecasts = ForecastConditions.objects(
+        caused_by__ne="",
+        impacts__ne="", 
+        place__ne="",
+        weather_condition__ne=""
+    ).order_by("-date")
     result = []
 
     for forecast in forecasts:
@@ -43,4 +49,20 @@ def delete_all_forecast_conditions():
     ForecastConditions.objects().delete()
 
     return { 'message': 'All forecast conditions deleted successfully' }
+
+@router.delete("/forecast-conditions/cleanup-empty")
+def delete_empty_forecast_conditions():
+    # Delete records where any of the key fields are empty
+    deleted_count = ForecastConditions.objects(
+        __raw__={
+            "$or": [
+                {"caused_by": ""},
+                {"impacts": ""},
+                {"place": ""},
+                {"weather_condition": ""}
+            ]
+        }
+    ).delete()
+
+    return { 'message': f'Deleted {deleted_count} empty forecast conditions' }
 
