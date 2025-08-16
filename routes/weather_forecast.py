@@ -1,16 +1,19 @@
 from fastapi import APIRouter
 from models.forecast_conditions import ForecastConditions
 from schema.weather_forecast_schema import ForecastConditionsSchema
+from models.constants import LAST_SEVEN_DAYS, LAST_THIRTY_DAYS
+from models.constants import LAST_SEVEN_DAYS, TODAY, THIRTY_DAYS_FROM_LAST_WEEK_END
 
 
 router = APIRouter()
-
 
 
 @router.get("/forecast-conditions")
 def get_forecast_condition():
     # Filter out documents with empty string values for key fields
     forecasts = ForecastConditions.objects(
+        date__gte=LAST_SEVEN_DAYS,
+        date__lte=TODAY,
         caused_by__ne="",
         impacts__ne="", 
         place__ne="",
@@ -65,4 +68,15 @@ def delete_empty_forecast_conditions():
     ).delete()
 
     return { 'message': f'Deleted {deleted_count} empty forecast conditions' }
+
+@router.delete("/forecast-conditions/cleanup-old")
+def delete_old_forecast_conditions():
+    # Delete records from 7 days ago to 30 days before
+    # This deletes data between LAST_THIRTY_DAYS and LAST_SEVEN_DAYS
+    deleted_count = ForecastConditions.objects(
+        date__gte=LAST_THIRTY_DAYS,
+        date__lte=LAST_SEVEN_DAYS
+    ).delete()
+
+    return { 'message': f'Deleted {deleted_count} old forecast conditions (7-30 days ago)' }
 
