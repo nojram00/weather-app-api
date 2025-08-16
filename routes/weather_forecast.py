@@ -1,8 +1,7 @@
 from fastapi import APIRouter
 from models.forecast_conditions import ForecastConditions
 from schema.weather_forecast_schema import ForecastConditionsSchema
-from models.constants import LAST_SEVEN_DAYS, LAST_THIRTY_DAYS
-from models.constants import LAST_SEVEN_DAYS, TODAY, THIRTY_DAYS_FROM_LAST_WEEK_END
+from models.constants import LAST_SEVEN_DAYS, LAST_THIRTY_DAYS,  TODAY, THIRTY_DAYS_FROM_LAST_WEEK_END
 
 
 router = APIRouter()
