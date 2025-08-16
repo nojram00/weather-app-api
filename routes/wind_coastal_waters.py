@@ -6,7 +6,7 @@ router = APIRouter()
 
 @router.get("/wind-and-coastal-waters")
 def get_wind_and_coastal_waters():
-    waters = WindAndCoastalWaters.objects()
+    waters = WindAndCoastalWaters.objects.order_by("-date")
     result = []
 
     for water in waters:

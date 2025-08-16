@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.get("/forecast-conditions")
 def get_forecast_condition():
-    forecasts = ForecastConditions.objects()
+    forecasts = ForecastConditions.objects.order_by("-date")
     result = []
 
     for forecast in forecasts:
