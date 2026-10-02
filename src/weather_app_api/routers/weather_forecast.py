@@ -30,8 +30,6 @@ def get_forecast_condition():
                 "$exists": True,
                 "$ne": ""
             },
-        }, {
-            "_id" : 0
         }).sort({
             "date": -1
         })
