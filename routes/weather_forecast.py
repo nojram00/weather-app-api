@@ -6,7 +6,6 @@ from models.constants import LAST_SEVEN_DAYS, LAST_THIRTY_DAYS,  TODAY, THIRTY_D
 
 router = APIRouter()
 
-
 @router.get("/forecast-conditions")
 def get_forecast_condition():
     # Filter out documents with empty string values for key fields

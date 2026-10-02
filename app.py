@@ -1,12 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from utils.db import init_db
-from routes.weather_forecast import router as forecast_conditions
-from routes.wind_coastal_waters import router as wind_coastal_waters
+# from routes.weather_forecast import router as forecast_conditions
+# from routes.wind_coastal_waters import router as wind_coastal_waters
+from weather_app_api import weather_forecast, wind_coastal_waters
 
 app = FastAPI()
-init_db()
 
 # Add CORS middleware
 app.add_middleware(
@@ -17,7 +16,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-app.include_router(forecast_conditions)
+app.include_router(weather_forecast)
 app.include_router(wind_coastal_waters)
 
 @app.get("/")
